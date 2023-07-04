@@ -31,9 +31,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Page<Article> getUserArticles(Integer idUser, Pageable pageable) {
-        return userRepository.findById(idUser)
-                .map(u -> new PageImpl<>(u.getArticles()))
-                .orElseGet(() -> new PageImpl<>(new ArrayList<>()));
+        return articleRepository.findArticlesFromAuthor(idUser, pageable);
     }
 
     @Override
@@ -43,17 +41,17 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Page<Article> searchByAuthorName(String name, Pageable pageable) {
-        return null;
+        return articleRepository.searchArticlesByAuthorName(name, pageable);
     }
 
     @Override
     public Page<Article> searchByRating(Integer rate, Pageable pageable) {
-        return null;
+        return articleRepository.searchArticlesByArticleRatesIsGreaterThan(rate, pageable);
     }
 
     @Override
-    public Page<Article> searchByPopularity(Integer limit, Pageable pageable) {
-        return null;
+    public Page<Article> searchByPopularity(Pageable pageable) {
+        return articleRepository.searchArticlesByPopularity(pageable);
     }
 
     @Override

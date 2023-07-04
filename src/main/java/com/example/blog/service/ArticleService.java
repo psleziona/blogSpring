@@ -14,7 +14,7 @@ public interface ArticleService {
     Page<Article> searchByTitle(String title, Pageable pageable);
     Page<Article> searchByAuthorName(String name, Pageable pageable);
     Page<Article> searchByRating(Integer rate, Pageable pageable);
-    Page<Article> searchByPopularity(Integer limit, Pageable pageable);
+    Page<Article> searchByPopularity(Pageable pageable);
     Article setArticle(Article article);
     void deleteArticle(Integer articleId);
 }
