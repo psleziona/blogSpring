@@ -21,6 +21,8 @@ public class Article {
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User author;
+    @OneToMany(mappedBy = "article")
+    private List<Comment> comments;
     @ManyToMany
     @JoinTable(name="article_rate",
         joinColumns = {@JoinColumn(name = "id_article")},

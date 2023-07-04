@@ -22,6 +22,9 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User author;
+    @ManyToOne
+    @JoinColumn(name = "id_article")
+    private Article article;
     @ManyToMany
     @JoinTable(name = "comment_rate",
             joinColumns = {@JoinColumn(name = "id_comment")},

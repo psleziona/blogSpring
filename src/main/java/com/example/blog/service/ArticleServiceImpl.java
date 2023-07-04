@@ -1,0 +1,68 @@
+package com.example.blog.service;
+
+import com.example.blog.model.Article;
+import com.example.blog.model.User;
+import com.example.blog.repository.ArticleRepository;
+import com.example.blog.repository.UserRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@AllArgsConstructor
+public class ArticleServiceImpl implements ArticleService {
+    private final ArticleRepository articleRepository;
+    private final UserRepository userRepository;
+    @Override
+    public Optional<Article> getArticle(Integer idArticle) {
+        return articleRepository.findById(idArticle);
+    }
+
+    @Override
+    public Page<Article> getArticles(Pageable pageable) {
+        return articleRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Article> getUserArticles(Integer idUser, Pageable pageable) {
+        return userRepository.findById(idUser)
+                .map(u -> new PageImpl<>(u.getArticles()))
+                .orElseGet(() -> new PageImpl<>(new ArrayList<>()));
+    }
+
+    @Override
+    public Page<Article> searchByTitle(String title, Pageable pageable) {
+        return articleRepository.findArticlesByTitleContainsIgnoreCase(title, pageable);
+    }
+
+    @Override
+    public Page<Article> searchByAuthorName(String name, Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public Page<Article> searchByRating(Integer rate, Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public Page<Article> searchByPopularity(Integer limit, Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public Article setArticle(Article article) {
+        return null;
+    }
+
+    @Override
+    public void deleteArticle(Integer articleId) {
+
+    }
+}
