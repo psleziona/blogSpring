@@ -1,9 +1,7 @@
 package com.example.blog.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 public class Rate {
@@ -11,4 +9,9 @@ public class Rate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idRate;
     private Integer value;
+    @ManyToMany(mappedBy = "commentRates")
+    List<Comment> comments;
+    @ManyToMany(mappedBy = "articleRates")
+    List<Article> articles;
+
 }

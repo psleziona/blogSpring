@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -21,5 +22,11 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User author;
+    @ManyToMany
+    @JoinTable(name = "comment_rate",
+            joinColumns = {@JoinColumn(name = "id_comment")},
+            inverseJoinColumns = {@JoinColumn(name = "id_rate")}
+    )
+    List<Rate> commentRates;
 
 }

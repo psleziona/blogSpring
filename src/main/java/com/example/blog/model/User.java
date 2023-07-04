@@ -2,6 +2,7 @@ package com.example.blog.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -14,19 +15,25 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUser;
-    private String login;
+    @NotNull
     private String firstname;
+    @NotNull
     private String lastname;
+    @NotNull
     @Email
     private String email;
+    @NotNull
     private String password;
+    @NotNull
+    private Role role;
     @CreationTimestamp
     private LocalDateTime creationTime;
+    private Boolean active;
 
-    @OneToMany(mappedBy = "article")
+    @OneToMany(mappedBy = "author")
     private List<Article> articles;
 
-    @OneToMany(mappedBy = "comment")
+    @OneToMany(mappedBy = "author")
     private List<Comment> comments;
 
 }
