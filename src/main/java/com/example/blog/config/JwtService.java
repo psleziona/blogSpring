@@ -21,7 +21,7 @@ public class JwtService {
     private final SecretKey signKey;
     private final Integer tokenValidityInMin;
 
-    public JwtService(@Value("${jwt.secret-key") String secretKey, @Value("${jwt.token-validity-in-min}") Integer tokenValidityInMin) {
+    public JwtService(@Value("${jwt.secret-key}") String secretKey, @Value("${jwt.token-validity-in-min}") Integer tokenValidityInMin) {
         this.signKey = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
         this.tokenValidityInMin = tokenValidityInMin;
     }

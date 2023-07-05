@@ -18,5 +18,5 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
     Page<Article> searchArticlesByArticleRatesIsGreaterThan(Integer rate, Pageable pageable);
     @Query(value = "SELECT a FROM Article a INNER JOIN a.articleRates ar order by ar.value")
     Page<Article> searchArticlesByPopularity(Pageable pageable);
-    
+
 }

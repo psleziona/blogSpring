@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    Optional<User> getUser();
+    Optional<User> getUser(Integer idUser);
     Optional<User> getUserByEmail(String email);
     Page<User> getUsers(Pageable pageable);
     Page<User> searchByName(String name, Pageable pageable);

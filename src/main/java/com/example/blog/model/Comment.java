@@ -1,7 +1,9 @@
 package com.example.blog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -10,6 +12,7 @@ import java.util.List;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,9 +24,11 @@ public class Comment {
     private LocalDateTime modifyTime;
     @ManyToOne
     @JoinColumn(name = "id_user")
+    @JsonIgnoreProperties("comments")
     private User author;
     @ManyToOne
     @JoinColumn(name = "id_article")
+    @JsonIgnoreProperties("comments")
     private Article article;
     @ManyToMany
     @JoinTable(name = "comment_rate",
@@ -32,4 +37,11 @@ public class Comment {
     )
     List<Rate> commentRates;
 
+    public Comment(Integer idComment, String text, LocalDateTime creationTime, User author, Article article) {
+        this.idComment = idComment;
+        this.text = text;
+        this.creationTime = creationTime;
+        this.author = author;
+        this.article = article;
+    }
 }

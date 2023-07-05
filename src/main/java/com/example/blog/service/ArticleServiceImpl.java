@@ -18,7 +18,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
     @Override
     public Optional<Article> getArticle(Integer idArticle) {
         return articleRepository.findById(idArticle);
@@ -56,11 +56,13 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Article setArticle(Article article) {
-        return null;
+//        Optional<User> user = userService.getUser(idAuthor);
+//        user.ifPresent(article::setAuthor);
+        return articleRepository.save(article);
     }
 
     @Override
-    public void deleteArticle(Integer articleId) {
-
+    public void deleteArticle(Integer idArticle) {
+        articleRepository.deleteById(idArticle);
     }
 }
