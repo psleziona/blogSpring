@@ -30,6 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -58,10 +59,18 @@ class ArticleServiceTest {
     void tearDown() {
     }
 
-//    @Test
-//    void getArticle() {
-//
-//    }
+    @Test
+    void getArticle() throws Exception {
+        Article article = new Article(2, "Test2", "Lorem ipsum", LocalDateTime.now(), author);
+        when(mockArticleService.getArticle(article.getIdArticle())).thenReturn(Optional.of(article));
+        mockMvc.perform(get(apiPath + "/{idArticle}", article.getIdArticle()).accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.idArticle").value(article.getIdArticle()))
+                .andExpect(jsonPath("$.title").value(article.getTitle()));
+        verify(mockArticleService, times(1)).getArticle(article.getIdArticle());
+        verifyNoMoreInteractions(mockArticleService);
+    }
 
     @Test
     void getArticles() throws Exception {
