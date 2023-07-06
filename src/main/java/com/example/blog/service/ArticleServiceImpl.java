@@ -18,7 +18,6 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
-    private final UserService userService;
     @Override
     public Optional<Article> getArticle(Integer idArticle) {
         return articleRepository.findById(idArticle);

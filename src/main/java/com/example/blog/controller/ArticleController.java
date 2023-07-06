@@ -57,7 +57,7 @@ public class ArticleController {
     ResponseEntity<Void> updateArticle(@Valid @RequestBody Article article, @PathVariable Integer idArticle) {
         return articleService.getArticle(idArticle)
                 .map(a -> {
-                    articleService.setArticle(a);
+                    articleService.setArticle(article);
                     return new ResponseEntity<Void>(HttpStatus.OK);
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());

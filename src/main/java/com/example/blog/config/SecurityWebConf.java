@@ -20,8 +20,8 @@ public class SecurityWebConf {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-//        httpSecurity
-//                .csrf().disable()
+        httpSecurity
+                .csrf().disable();
 //                .authorizeHttpRequests()
 //                .requestMatchers("/api/register", "/api/login").permitAll()
 //                .requestMatchers("/api/users/**").hasAuthority(Role.Admin.toString())
