@@ -1,11 +1,11 @@
 package com.example.blog.service;
 
 import com.example.blog.model.Article;
+import com.example.blog.model.Rate;
 import com.example.blog.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,23 +19,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -133,13 +128,53 @@ class ArticleServiceTest {
         verifyNoMoreInteractions(mockArticleService);
     }
 
-//    @Test
-//    void searchByRating() {
-//    }
-//
-//    @Test
-//    void searchByPopularity() {
-//    }
+    @Test
+    void searchByRating() throws Exception {
+        Article article = new Article(7, "Test7", "Lorem ipsum", LocalDateTime.now(), author);
+        Article article2 = new Article(8, "Test8", "Lorem ipsum", LocalDateTime.now(), author);
+        Rate r1 = new Rate();
+        r1.setIdRate(1);
+        r1.setValue(5);
+        Rate r2 = new Rate();
+        r2.setIdRate(2);
+        r2.setValue(7);
+        article.setArticleRates(List.of(r1));
+        article2.setArticleRates(List.of(r2));
+        Page<Article> page = new PageImpl<>(Collections.singletonList(article2));
+        when(mockArticleService.searchByRating(eq(6), any(Pageable.class))).thenReturn(page);
+        mockMvc.perform(get(apiPath + "/rate/{rate}", 6).contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content.length()").value(1))
+                .andExpect(jsonPath("$.content[0].idArticle").value(article2.getIdArticle()));
+        verify(mockArticleService, times(1)).searchByRating(eq(6), any(Pageable.class));
+        verifyNoMoreInteractions(mockArticleService);
+
+    }
+
+    @Test
+    void searchByPopularity() throws Exception {
+        Article article = new Article(9, "Test9", "Lorem ipsum", LocalDateTime.now(), author);
+        Article article2 = new Article(10, "Test10", "Lorem ipsum", LocalDateTime.now(), author);
+        Rate r1 = new Rate();
+        r1.setIdRate(1);
+        r1.setValue(5);
+        Rate r2 = new Rate();
+        r2.setIdRate(2);
+        r2.setValue(7);
+        article.setArticleRates(List.of(r1));
+        article2.setArticleRates(List.of(r2));
+        List<Article> articles = List.of(article2, article);
+        Page<Article> page = new PageImpl<>(articles);
+        when(mockArticleService.searchByPopularity(any(Pageable.class))).thenReturn(page);
+        mockMvc.perform(get(apiPath + "/popular").contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content.length()").value(2))
+                .andExpect(jsonPath("$.content[0].idArticle").value(article2.getIdArticle()));
+        verify(mockArticleService, times(1)).searchByPopularity(any(Pageable.class));
+        verifyNoMoreInteractions(mockArticleService);
+    }
 
     @Test
     void setArticle() throws Exception{
@@ -152,8 +187,4 @@ class ArticleServiceTest {
                 .andExpect(status().isCreated())
                 .andExpect(header().string("location", containsString(apiPath + "/" + article.getIdArticle())));
     }
-
-//    @Test
-//    void deleteArticle() {
-//    }
 }

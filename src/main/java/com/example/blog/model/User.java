@@ -11,7 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
+@Entity(name = "users")
 @Data
 @NoArgsConstructor
 public class User {
@@ -27,7 +27,6 @@ public class User {
     private String email;
     @NotNull
     private String password;
-    @NotNull
     private Role role;
     @CreationTimestamp
     private LocalDateTime creationTime;
@@ -50,5 +49,16 @@ public class User {
         this.creationTime = creationTime;
         this.active = active;
         this.role = Role.Admin;
+    }
+
+    public User(Integer idUser, String firstname, String lastname, String email, String password, LocalDateTime creationTime,Role role, Boolean active) {
+        this.idUser = idUser;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.creationTime = creationTime;
+        this.active = active;
+        this.role = role;
     }
 }

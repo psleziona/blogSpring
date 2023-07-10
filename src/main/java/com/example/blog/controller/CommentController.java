@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 
 @RestController
 @AllArgsConstructor
@@ -36,7 +37,7 @@ public class CommentController {
     ResponseEntity<Void> saveComment(@Valid @RequestBody Comment comment) {
         Comment createdComment = commentService.setComment(comment);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{idComment").buildAndExpand(comment.getIdComment()).toUri();
+                .path("/{idComment}").buildAndExpand(createdComment.getIdComment()).toUri();
         return ResponseEntity.created(location).build();
     }
     @PutMapping("/comments/{idComment}")

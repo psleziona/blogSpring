@@ -15,7 +15,6 @@ import java.util.Optional;
 @AllArgsConstructor
 public class CommentServiceImpl implements CommentService{
     private final CommentRepository commentRepository;
-    private final ArticleService articleService;
     @Override
     public Optional<Comment> getComment(Integer idComment) {
         return commentRepository.findById(idComment);
