@@ -35,7 +35,8 @@ public class Comment {
             joinColumns = {@JoinColumn(name = "id_comment")},
             inverseJoinColumns = {@JoinColumn(name = "id_rate")}
     )
-    List<Rate> commentRates;
+    private List<Rate> commentRates;
+    private Double averageRate;
 
     public Comment(Integer idComment, String text, LocalDateTime creationTime, User author, Article article) {
         this.idComment = idComment;
@@ -43,5 +44,11 @@ public class Comment {
         this.creationTime = creationTime;
         this.author = author;
         this.article = article;
+    }
+
+    public void countRate() {
+        averageRate = commentRates.stream().
+                mapToDouble(Rate::getValue)
+                .average().orElseGet(() -> 0.0);
     }
 }

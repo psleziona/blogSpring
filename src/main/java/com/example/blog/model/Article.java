@@ -18,6 +18,7 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idArticle;
     private String title;
+    @Column(length = 100000)
     private String text;
     @CreationTimestamp
     private LocalDateTime creationTime;
@@ -34,7 +35,10 @@ public class Article {
     @JoinTable(name="article_rate",
         joinColumns = {@JoinColumn(name = "id_article")},
         inverseJoinColumns = {@JoinColumn(name = "id_rate")})
-    List<Rate> articleRates;
+    private List<Rate> articleRates;
+    private Double averageRate;
+    @Column(length = 5000000)
+    private byte[] image;
 
     public Article(Integer idArticle, String title, String text, LocalDateTime creationTime, User author) {
         this.idArticle = idArticle;
@@ -42,5 +46,10 @@ public class Article {
         this.text = text;
         this.creationTime = creationTime;
         this.author = author;
+    }
+    public void countRate() {
+        averageRate = articleRates.stream().
+                mapToDouble(Rate::getValue)
+                .average().orElseGet(() -> 0.0);
     }
 }

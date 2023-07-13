@@ -17,6 +17,10 @@ public class Rate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idRate;
     private Integer value;
+    @ManyToOne
+    @JoinColumn(name= "id_user")
+    @JsonIgnoreProperties("rates")
+    private User author;
     @CreationTimestamp
     private LocalDateTime createdTime;
     @ManyToMany(mappedBy = "commentRates")

@@ -40,6 +40,10 @@ public class User {
     @JsonIgnoreProperties("author")
     private List<Comment> comments;
 
+    @OneToMany(mappedBy = "author")
+    @JsonIgnoreProperties("author")
+    private List<Rate> rates;
+
     public User(Integer idUser, String firstname, String lastname, String email, String password, LocalDateTime creationTime, Boolean active) {
         this.idUser = idUser;
         this.firstname = firstname;

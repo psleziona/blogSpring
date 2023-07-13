@@ -17,6 +17,7 @@ public class RateServiceImpl implements RateService {
     public void setArticleRate(Rate rate, Integer idArticle) {
         Article article = articleService.getArticle(idArticle).get();
         article.getArticleRates().add(rate);
+        article.countRate();
         rateRepository.save(rate);
     }
 
@@ -24,6 +25,7 @@ public class RateServiceImpl implements RateService {
     public void setCommentRate(Rate rate, Integer idComment) {
         Comment comment = commentService.getComment(idComment).get();
         comment.getCommentRates().add(rate);
+        comment.countRate();
         rateRepository.save(rate);
     }
 }
