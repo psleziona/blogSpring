@@ -15,6 +15,7 @@ import java.net.URI;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 @RequestMapping("/api")
 public class ArticleController {
     private final ArticleService articleService;

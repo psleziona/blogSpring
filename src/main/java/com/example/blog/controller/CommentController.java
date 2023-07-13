@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 @RequestMapping("/api")
 public class CommentController {
     private final CommentService commentService;
