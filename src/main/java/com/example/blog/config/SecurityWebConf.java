@@ -21,19 +21,19 @@ public class SecurityWebConf {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .csrf().disable();
-//                .authorizeHttpRequests()
-//                .requestMatchers("/api/register", "/api/login").permitAll()
-//                .requestMatchers("/api/users/**").hasAuthority(Role.Admin.toString())
-//                .anyRequest().authenticated()
-//                .and()
-//
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//
-//                .authenticationProvider(authenticationProvider)
-//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .csrf().disable()
+                .authorizeHttpRequests()
+                .requestMatchers("/api/register", "/api/login").permitAll()
+                .requestMatchers("/api/users/**").hasAuthority(Role.Admin.toString())
+                .anyRequest().authenticated()
+                .and()
+
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+
+                .authenticationProvider(authenticationProvider)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
 }

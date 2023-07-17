@@ -35,6 +35,7 @@ public class Article {
     @JoinTable(name="article_rate",
         joinColumns = {@JoinColumn(name = "id_article")},
         inverseJoinColumns = {@JoinColumn(name = "id_rate")})
+    @JsonIgnoreProperties({"author", "comments","articles"})
     private List<Rate> articleRates;
     private Double averageRate;
     @Column(length = 5000000)

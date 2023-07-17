@@ -1,9 +1,12 @@
 package com.example.blog.service;
 
+import com.example.blog.auth.AuthService;
+import com.example.blog.auth.TokenHolder;
 import com.example.blog.model.Article;
 import com.example.blog.model.User;
 import com.example.blog.repository.ArticleRepository;
 import com.example.blog.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -18,6 +21,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
+    private final AuthService authService;
     @Override
     public Optional<Article> getArticle(Integer idArticle) {
         return articleRepository.findById(idArticle);
@@ -55,8 +59,8 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Article setArticle(Article article) {
-//        Optional<User> user = userService.getUser(idAuthor);
-//        user.ifPresent(article::setAuthor);
+        User currentUser = authService.getSessionUser();
+        article.setAuthor(currentUser);
         return articleRepository.save(article);
     }
 

@@ -5,6 +5,8 @@ import com.example.blog.model.CustomUserDetails;
 import com.example.blog.model.Role;
 import com.example.blog.model.User;
 import com.example.blog.service.UserService;
+import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,10 +22,12 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final HttpServletRequest httpServletRequest;
 
     public AuthResponse register(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.User);
+        user.setActive(false);
         CustomUserDetails userDetails = new CustomUserDetails(userService.setUser(user));
         String token = jwtService.generateToken(userDetails);
         return AuthResponse.builder().token(token).build();
@@ -44,5 +48,17 @@ public class AuthService {
 
     public AuthResponse authenticate(AuthRequest authRequest) {
         return authenticate(authRequest.getEmail(), authRequest.getPassword());
+    }
+
+    public User getSessionUser() {
+        String token = getSessionToken();
+        String prefix = "Bearer";
+        token = token.substring(prefix.length());
+        String email = jwtService.extractUserName(token);
+        return userService.getUserByEmail(email).get();
+    }
+
+    private String getSessionToken() {
+        return httpServletRequest.getHeader("Authorization");
     }
 }
