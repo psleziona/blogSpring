@@ -1,12 +1,10 @@
 package com.example.blog.service;
 
 import com.example.blog.auth.AuthService;
-import com.example.blog.auth.TokenHolder;
 import com.example.blog.model.Article;
 import com.example.blog.model.User;
 import com.example.blog.repository.ArticleRepository;
 import com.example.blog.repository.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
