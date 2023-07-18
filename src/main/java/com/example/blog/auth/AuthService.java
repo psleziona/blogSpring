@@ -38,7 +38,7 @@ public class AuthService {
                 .authenticate(new UsernamePasswordAuthenticationToken(email, password));
         var user = userService
                 .getUserByEmail(email)
-                .map(u -> new CustomUserDetails(u))
+                .map(CustomUserDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", email)));
         var token = jwtService.generateToken(user);
         return AuthResponse.builder()

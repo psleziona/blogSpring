@@ -1,7 +1,9 @@
 package com.example.blog.service;
 
+import com.example.blog.auth.AuthService;
 import com.example.blog.model.Article;
 import com.example.blog.model.Comment;
+import com.example.blog.model.User;
 import com.example.blog.repository.CommentRepository;
 import com.example.blog.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -15,6 +17,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class CommentServiceImpl implements CommentService{
     private final CommentRepository commentRepository;
+    private final AuthService authService;
     @Override
     public Optional<Comment> getComment(Integer idComment) {
         return commentRepository.findById(idComment);
@@ -32,6 +35,8 @@ public class CommentServiceImpl implements CommentService{
 
     @Override
     public Comment setComment(Comment comment) {
+        User author = authService.getSessionUser();
+        comment.setAuthor(author);
         return commentRepository.save(comment);
     }
 
