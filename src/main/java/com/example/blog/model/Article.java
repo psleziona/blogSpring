@@ -39,7 +39,7 @@ public class Article {
     private List<Rate> articleRates;
     private Double averageRate;
     @Column(length = 5000000)
-    private byte[] image;
+    private String image;
 
     public Article(Integer idArticle, String title, String text, LocalDateTime creationTime, User author) {
         this.idArticle = idArticle;
