@@ -1,5 +1,6 @@
 package com.example.blog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -26,19 +27,19 @@ public class Article {
     private LocalDateTime modifyTime;
     @ManyToOne
     @JoinColumn(name = "id_user")
-    @JsonIgnoreProperties("articles")
+    @JsonIgnoreProperties({"comments","articles","rates"})
     private User author;
     @OneToMany(mappedBy = "article")
-    @JsonIgnoreProperties("author")
+    @JsonIgnoreProperties({"article","commentRates"})
     private List<Comment> comments;
     @ManyToMany
     @JoinTable(name="article_rate",
         joinColumns = {@JoinColumn(name = "id_article")},
         inverseJoinColumns = {@JoinColumn(name = "id_rate")})
-    @JsonIgnoreProperties({"author", "comments","articles"})
+    @JsonIgnore
     private List<Rate> articleRates;
     private Double averageRate;
-    @Column(length = 5000000)
+    @Column(length = 100)
     private String image;
 
     public Article(Integer idArticle, String title, String text, LocalDateTime creationTime, User author) {

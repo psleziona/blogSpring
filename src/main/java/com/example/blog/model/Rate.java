@@ -19,7 +19,7 @@ public class Rate {
     private Integer value;
     @ManyToOne
     @JoinColumn(name= "id_user")
-    @JsonIgnoreProperties("rates")
+    @JsonIgnoreProperties({"comments","articles","rates"})
     private User author;
     @CreationTimestamp
     private LocalDateTime createdTime;

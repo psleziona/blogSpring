@@ -1,5 +1,7 @@
 package com.example.blog.service;
 
+import jakarta.servlet.ServletContext;
+import lombok.AllArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -12,19 +14,21 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Service
+@AllArgsConstructor
 public class ImageServiceImpl implements ImageService{
-    private static final String UPLOAD_DIR = "";
+    private final ServletContext servletContext;
     @Override
     public void saveImage(MultipartFile file) throws IOException {
         byte[] bytes = file.getBytes();
-        Path path = Paths.get(UPLOAD_DIR + file.getOriginalFilename());
+        Path path = Paths.get(servletContext.getAttribute("uploadDirectory") + "/" + file.getOriginalFilename());
+        Files.createDirectories(path.getParent());
         Files.write(path, bytes);
     }
 
     @Override
     public Resource loadImageAsResource(String fileName) {
         try {
-            Path filePath = Paths.get(UPLOAD_DIR).resolve(fileName);
+            Path filePath = Paths.get((String) servletContext.getAttribute("uploadDirectory")).resolve(fileName);
             Resource resource = new UrlResource(filePath.toUri());
 
             if (resource.exists() && resource.isReadable()) {

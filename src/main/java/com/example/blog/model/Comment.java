@@ -24,11 +24,11 @@ public class Comment {
     private LocalDateTime modifyTime;
     @ManyToOne
     @JoinColumn(name = "id_user")
-    @JsonIgnoreProperties("comments")
+    @JsonIgnoreProperties({"comments","articles","rates"})
     private User author;
     @ManyToOne
     @JoinColumn(name = "id_article")
-    @JsonIgnoreProperties("comments")
+    @JsonIgnoreProperties("article")
     private Article article;
     @ManyToMany
     @JoinTable(name = "comment_rate",
