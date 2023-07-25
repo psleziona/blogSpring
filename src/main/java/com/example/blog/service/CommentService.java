@@ -12,7 +12,7 @@ public interface CommentService {
     Optional<Comment> getComment(Integer idComment);
     Page<Comment> getArticleComments(Integer idArticle, Pageable pageable);
     Page<Comment> getUserComments(Integer idUser, Pageable pageable);
-    Comment setComment(Comment comment);
+    Comment setComment(Comment comment, Integer idArticle);
     void deleteComment(Integer idComment);
 
 }

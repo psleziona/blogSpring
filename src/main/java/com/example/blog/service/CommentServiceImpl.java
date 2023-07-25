@@ -18,6 +18,7 @@ import java.util.Optional;
 public class CommentServiceImpl implements CommentService{
     private final CommentRepository commentRepository;
     private final AuthService authService;
+    private final ArticleService articleService;
     @Override
     public Optional<Comment> getComment(Integer idComment) {
         return commentRepository.findById(idComment);
@@ -34,8 +35,10 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public Comment setComment(Comment comment) {
+    public Comment setComment(Comment comment, Integer idArticle) {
         User author = authService.getSessionUser();
+        Article article = articleService.getArticle(idArticle).get();
+        comment.setArticle(article);
         comment.setAuthor(author);
         return commentRepository.save(comment);
     }

@@ -39,7 +39,7 @@ public class ImageController {
 
         try {
             imageService.saveImage(file);
-            return ResponseEntity.ok("Obraz został pomyślnie zapisany na serwerze.");
+            return ResponseEntity.ok("");
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Wystąpił błąd podczas zapisywania obrazu.");
         }

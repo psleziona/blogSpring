@@ -34,9 +34,9 @@ public class CommentController {
     Page<Comment> getUserComments(@PathVariable Integer idUser, Pageable pageable) {
         return commentService.getUserComments(idUser, pageable);
     }
-    @PostMapping("/comments")
-    ResponseEntity<Void> saveComment(@Valid @RequestBody Comment comment) {
-        Comment createdComment = commentService.setComment(comment);
+    @PostMapping("/comments/{idArticle}")
+    ResponseEntity<Void> saveComment(@PathVariable Integer idArticle, @Valid @RequestBody Comment comment) {
+        Comment createdComment = commentService.setComment(comment, idArticle);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{idComment}").buildAndExpand(createdComment.getIdComment()).toUri();
         return ResponseEntity.created(location).build();
@@ -45,7 +45,7 @@ public class CommentController {
     ResponseEntity<Void> updateComment(@PathVariable Integer idComment, @Valid @RequestBody Comment comment) {
         return commentService.getComment(idComment)
                 .map(c -> {
-                    commentService.setComment(comment);
+                    commentService.setComment(comment, c.getArticle().getIdArticle());
                     return new ResponseEntity<Void>(HttpStatus.OK);
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
