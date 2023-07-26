@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -52,7 +53,11 @@ public class ArticleController {
         Article createdArticle = articleService.setArticle(article);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{idArticle}").buildAndExpand(createdArticle.getIdArticle()).toUri();
-        return ResponseEntity.created(location).build();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(location);
+        headers.add("Access-Control-Expose-Headers","*");
+
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
     @PutMapping("/articles/{idArticle}")
     ResponseEntity<Void> updateArticle(@Valid @RequestBody Article article, @PathVariable Integer idArticle) {
