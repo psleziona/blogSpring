@@ -16,6 +16,12 @@ public class RateServiceImpl implements RateService {
     private final CommentService commentService;
     private final RateRepository rateRepository;
     private final AuthService authService;
+
+    @Override
+    public Rate getUserArticleRate(Integer idArticle) {
+        User user = authService.getSessionUser();
+    }
+
     @Override
     public void setArticleRate(Rate rate, Integer idArticle) {
         User author = authService.getSessionUser();
