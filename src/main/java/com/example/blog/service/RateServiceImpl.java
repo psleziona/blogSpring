@@ -20,6 +20,7 @@ public class RateServiceImpl implements RateService {
     @Override
     public Rate getUserArticleRate(Integer idArticle) {
         User user = authService.getSessionUser();
+        return new Rate();
     }
 
     @Override

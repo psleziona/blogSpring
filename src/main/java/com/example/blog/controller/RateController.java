@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class RateController {
     private final RateService rateService;
-    @GetMapping("/rate/article/{idArticle}")
-    ResponseEntity<Rate> getUserArticleRate(@PathVariable Integer idArticle) {
-        Rate rate =
-    }
+//    @GetMapping("/rate/article/{idArticle}")
+//    ResponseEntity<Rate> getUserArticleRate(@PathVariable Integer idArticle) {
+//        Rate rate =
+//    }
 
     @PostMapping("/rate/article/{idArticle}")
     ResponseEntity<Void> addArticleRate(@PathVariable Integer idArticle, @Valid @RequestBody Rate rate) {
